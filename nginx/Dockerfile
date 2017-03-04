@@ -1,4 +1,4 @@
-FROM nginx:1.11
+FROM nginx
 
 RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
 RUN apt-get update && \
@@ -12,3 +12,5 @@ COPY ./bin/* /usr/local/bin/
 RUN chmod +x /usr/local/bin/*
 
 RUN mkdir -p /etc/nginx/cert && openssl dhparam 2048 -out /etc/nginx/cert/dhparam.pem
+
+VOLUME /etc/letsencrypt

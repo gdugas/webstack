@@ -9,5 +9,11 @@ while (("$#")); do
     shift
 done
 
+if [ -z $WEBROOT ] || [ -z $DOMAINS ]; then
+    echo "bad arguments."
+    echo "usage: $0 <path_to_webroot> <domains...>"
+    echo ""
+    exit 1
+fi
 
 echo certbot certonly --webroot -w $WEBROOT $DOMAINS

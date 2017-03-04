@@ -5,7 +5,16 @@ server {
     access_log  /var/log/nginx/{{service_name}}-http.access.log  main;
     error_log  /var/log/nginx/{{service_name}}-http.error.log warn;
     
-    return 301 https://$host$request_uri;
+    # By DEFAULT REDIRECT ON HTTPS
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    # CERTBOT ACME Challenge
+    location /.well-known/acme-challenge/ {
+        allow all;
+        root   /var/www/{{service_name}}/;
+    }
 }
 
 server {
@@ -24,12 +33,6 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    # CERTBOT ACME Challenge
-    location /.well-known/acme-challenge/ {
-        allow all;
-        root   /var/www/{{service_name}}/.well-known/acme-challenge/;
-    }
-    
     ssl_certificate     {{ssl_cert_path}};
     ssl_certificate_key {{ssl_key_path}};
 

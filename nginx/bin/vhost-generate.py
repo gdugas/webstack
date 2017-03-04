@@ -30,7 +30,7 @@ class CommandLink:
 
         parser.add_argument('domains', 
                         nargs='+',
-                        help="List of domain names, comma separated")
+                        help="List of domain names")
         
         parser.add_argument('--force-https',
                         type=CommandLink.bool_false,
